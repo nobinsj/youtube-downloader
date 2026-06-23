@@ -1,0 +1,32 @@
+@import "../../styles/variables";
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  font-family: $font-sans;
+
+  &__track {
+    flex: 1;
+    height: 6px;
+    background-color: $color-border;
+    border-radius: $radius-full;
+    overflow: hidden;
+  }
+
+  &__bar {
+    height: 100%;
+    background-color: $color-primary;
+    border-radius: $radius-full;
+    transition: width 0.3s ease-out;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $color-text-secondary;
+    min-width: 32px;
+    text-align: right;
+  }
+}

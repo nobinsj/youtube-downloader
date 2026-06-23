@@ -1,0 +1,102 @@
+@import "../styles/variables";
+@import "../styles/mixins";
+
+.home-layout {
+  min-height: 100vh;
+  background-color: $color-bg;
+  padding: 24px 16px;
+
+  @include tablet {
+    padding: 40px 32px;
+  }
+
+  @include desktop {
+    padding: 60px 40px;
+  }
+}
+
+.home-header {
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+  font-family: $font-sans;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__logo {
+    width: 44px;
+    height: 44px;
+    background-color: $color-primary;
+    color: $color-surface;
+    border-radius: $radius-md;
+    @include flex-center;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $color-text-primary;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  &__subtitle {
+    font-size: 13px;
+    color: $color-text-secondary;
+    margin: 2px 0 0 0;
+  }
+}
+
+.home-main {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__hero {
+    margin-bottom: 32px;
+  }
+
+  &__queue-section {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__convert-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+
+    .convert-trigger-button {
+      width: 100%;
+      @include desktop {
+        width: 280px;
+      }
+    }
+  }
+}
+
+.queue-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: $font-sans;
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: $color-text-primary;
+    margin: 0;
+  }
+
+  &__count {
+    font-size: 13px;
+    color: $color-text-muted;
+    margin: 0;
+  }
+}

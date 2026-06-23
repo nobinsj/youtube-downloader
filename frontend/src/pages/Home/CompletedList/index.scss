@@ -1,0 +1,143 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+.completed-container {
+  margin-top: 40px;
+  font-family: $font-sans;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: $color-text-primary;
+    margin: 0 0 4px 0;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+
+  &__download-all {
+    display: none !important;
+    @include desktop {
+      display: inline-flex !important;
+      width: auto;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__mobile-action {
+    margin-top: 16px;
+    @include desktop {
+      display: none;
+    }
+  }
+}
+
+.completed-card {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  @include card-shadow;
+  @include transition-smooth;
+
+  @include desktop {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  &:hover {
+    border-color: rgba($color-primary, 0.4);
+  }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__file-name {
+    font-weight: 500;
+    color: $color-text-primary;
+    font-size: 15px;
+  }
+
+  &__badge {
+    font-size: 11px;
+    background-color: $color-primary-light;
+    color: $color-primary;
+    padding: 2px 8px;
+    border-radius: $radius-sm;
+    font-weight: 500;
+  }
+
+  &__details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: $color-text-secondary;
+  }
+
+  &__divider {
+    color: $color-text-muted;
+  }
+
+  &__status-text {
+    color: $color-success;
+    font-weight: 500;
+  }
+
+  &__link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: $color-bg;
+    color: $color-text-primary;
+    border: 1px solid $color-border;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: $radius-md;
+    text-decoration: none;
+    @include transition-smooth;
+
+    &:hover {
+      background-color: $color-primary;
+      color: $color-surface;
+      border-color: $color-primary;
+    }
+
+    @include desktop {
+      width: auto;
+    }
+  }
+}

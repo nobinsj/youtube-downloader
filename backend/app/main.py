@@ -1,7 +1,19 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app.routers.video import router
 
-@app.get("/")
-def home():
-    return {"message": "API Running"}
+app = FastAPI(
+    title="YouTube Downloader API",
+    version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+app.include_router(router)

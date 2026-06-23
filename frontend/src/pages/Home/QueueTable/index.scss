@@ -1,0 +1,100 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+.queue-table-wrapper {
+  display: none;
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+  overflow: hidden;
+  @include card-shadow;
+
+  @include desktop {
+    display: block;
+  }
+}
+
+.queue-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: $font-sans;
+
+  th,
+  td {
+    padding: 14px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid $color-border;
+  }
+
+  th {
+    background-color: $color-bg;
+    color: $color-text-secondary;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  &__title-cell {
+    font-weight: 500;
+    color: $color-text-primary;
+    max-width: 280px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__format-tag {
+    font-size: 12px;
+    background-color: $color-bg;
+    padding: 4px 8px;
+    border-radius: $radius-sm;
+    color: $color-text-secondary;
+    border: 1px solid $color-border;
+  }
+
+  &__progress-cell {
+    width: 240px;
+  }
+
+  &__muted-text {
+    color: $color-text-muted;
+  }
+
+  &__align-right {
+    text-align: right;
+  }
+}
+
+// Global Status Badge configuration reusable in list views
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: $radius-full;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &--pending {
+    background-color: $color-warning-light;
+    color: $color-warning;
+  }
+  &--processing {
+    background-color: $color-primary-light;
+    color: $color-primary;
+  }
+  &--completed {
+    background-color: $color-success-light;
+    color: $color-success;
+  }
+  &--failed {
+    background-color: $color-danger-light;
+    color: $color-danger;
+  }
+}
