@@ -8,7 +8,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 /**
  * Universal indexing mapping for your video application formats.
@@ -45,6 +45,7 @@ export interface QueueVideo {
   status: "pending" | "processing" | "completed" | "failed";
   progress: number;
   size?: string;
+  filename?: string;
 }
 
 export interface CompletedFile {

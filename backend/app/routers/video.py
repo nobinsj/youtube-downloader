@@ -1,5 +1,7 @@
 from pathlib import Path
 import asyncio
+from urllib.parse import unquote
+from fastapi.responses import FileResponse
 
 from fastapi import (
     APIRouter,
@@ -176,28 +178,20 @@ async def progress_stream(request: Request):
 # GET /download/{filename}
 # =====================================================
 
-@router.get("/download/{filename}")
-def download_file(
-    filename: str
-):
-    
-    # Prevent Path Traversal
-    safe_filename = Path(filename).name
-    file_path = DOWNLOAD_DIR / safe_filename
+@app.get("/download/{filename:path}")
+async def download_file(filename: str):
+    filename = unquote(filename)
+
+    file_path = DOWNLOAD_DIR / filename
 
     if not file_path.exists():
-
-        raise HTTPException(
-            status_code=404,
-            detail="File not found."
-        )
+        raise HTTPException(status_code=404, detail="File not found")
 
     return FileResponse(
-        path=str(file_path),
+        path=file_path,
         filename=filename,
         media_type="application/octet-stream"
     )
-
 
 # =====================================================
 # DOWNLOAD ALL ZIP

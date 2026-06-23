@@ -20,6 +20,7 @@ export const Home: React.FC = () => {
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [completed, setCompleted] = useState<CompletedItem[]>([]);
   const [isProcessingAll, setIsProcessingAll] = useState(false);
+  const [downloadAllLoading, setDownloadingAllLoading] = useState(false);
 
   // Sync state with backend on component mount (handles page reloads gracefully)
   useEffect(() => {
@@ -27,11 +28,15 @@ export const Home: React.FC = () => {
       try {
         const backendQueue = await getQueue();
         if (Array.isArray(backendQueue)) {
-          const pendingItems = backendQueue.filter(item => item.status !== "completed");
-          const completedItems = backendQueue.filter(item => item.status === "completed");
+          const pendingItems = backendQueue.filter(
+            (item) => item.status !== "completed",
+          );
+          const completedItems = backendQueue.filter(
+            (item) => item.status === "completed",
+          );
 
-          setQueue(pendingItems.map(
-            (item: QueueVideo) => ({
+          setQueue(
+            pendingItems.map((item: QueueVideo) => ({
               id: item.id,
               url: item.url,
               title: item.title,
@@ -39,18 +44,18 @@ export const Home: React.FC = () => {
               status: item.status,
               progress: item.progress,
               size: item.size || "Calculating...",
-            }),
-          ));
+            })),
+          );
 
-          setCompleted(completedItems.map(
-            (item: QueueVideo) => ({
+          setCompleted(
+            completedItems.map((item: QueueVideo) => ({
               id: item.id,
               title: item.title,
               format: item.format as VideoFormat,
               size: item.size || "Unknown Size",
               filename: item.filename || "",
-            })
-          ));
+            })),
+          );
         }
       } catch (err) {
         console.error(
@@ -170,11 +175,14 @@ export const Home: React.FC = () => {
   };
 
   const handleDownloadAllZipped = async () => {
+    setDownloadingAllLoading(true);
     try {
       // Trigger binary filesystem blob processing to deliver zip transfers
       await downloadAll();
+      setDownloadingAllLoading(false);
     } catch (error) {
       console.error("Failed downloading zipped archive bundle archive:", error);
+      setDownloadingAllLoading(false);
     }
   };
 
@@ -230,6 +238,7 @@ export const Home: React.FC = () => {
 
         <CompletedList
           items={completed}
+          isLoading={downloadAllLoading}
           onDownloadAll={handleDownloadAllZipped}
         />
       </main>

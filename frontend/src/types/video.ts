@@ -1,3 +1,5 @@
+import type { AvailableFormat } from "../services/api";
+
 export type VideoFormat = "mp3-320" | "mp4-1080" | "mp4-720" | "webm-2k";
 
 export type VideoStatus = "pending" | "processing" | "completed" | "failed";
@@ -18,4 +20,15 @@ export interface CompletedItem {
   format: VideoFormat;
   size: string;
   filename: string;
+}
+
+export interface QueueVideo {
+  id: string;
+  url: string;
+  title: string;
+  format: AvailableFormat;
+  status: "pending" | "processing" | "completed" | "failed";
+  progress: number;
+  size?: string;
+  filename?: string;
 }
