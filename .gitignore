@@ -3,3 +3,21 @@
 .env.local
 .env.production
 .env.development
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+
+# Testing
+.pytest_cache/
+
+*.pyc
+
+# IDE
+.vscode/
+.idea/

@@ -178,7 +178,7 @@ async def progress_stream(request: Request):
 # GET /download/{filename}
 # =====================================================
 
-@app.get("/download/{filename:path}")
+@router.get("/download/{filename:path}")
 async def download_file(filename: str):
     filename = unquote(filename)
 
