@@ -41,9 +41,11 @@ export const QueueList: React.FC<QueueListProps> = ({ items, onRemove }) => {
               variant="danger"
               fullWidth
               onClick={() => onRemove(item.id)}
-              disabled={item.status === "processing"}
+              disabled={
+                item.status === "processing" || item.status === "completed"
+              }
             >
-              Remove Asset
+              Remove
             </Button>
           </div>
         </div>

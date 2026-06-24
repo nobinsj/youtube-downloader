@@ -18,7 +18,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({ items, onRemove }) => {
       <table className="queue-table">
         <thead>
           <tr>
-            <th>Video Asset Title</th>
+            <th>Video Title</th>
             <th>Target Format</th>
             <th>Status</th>
             <th>Task Execution Progress</th>
@@ -52,7 +52,9 @@ export const QueueTable: React.FC<QueueTableProps> = ({ items, onRemove }) => {
                 <Button
                   variant="danger"
                   onClick={() => onRemove(item.id)}
-                  disabled={item.status === "processing"}
+                  disabled={
+                    item.status === "processing" || item.status === "completed"
+                  }
                 >
                   Remove
                 </Button>

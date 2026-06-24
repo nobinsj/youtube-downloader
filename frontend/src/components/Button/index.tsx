@@ -2,7 +2,14 @@ import React from "react";
 import "./index.scss";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "danger";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "danger"
+    | "accent"
+    | "info";
   isLoading?: boolean;
   fullWidth?: boolean;
 }

@@ -4,6 +4,7 @@ import { Dropdown } from "../../../components/Dropdown";
 import { Button } from "../../../components/Button";
 import "./index.scss";
 import type { VideoFormat } from "../../../types/video";
+import { convertAndDownload } from "../../../services/api";
 
 interface VideoFormProps {
   onAddToQueue: (url: string, format: VideoFormat) => Promise<void>;
@@ -14,6 +15,7 @@ export const VideoForm: React.FC<VideoFormProps> = ({ onAddToQueue }) => {
   const [format, setFormat] = useState<VideoFormat>("mp4-1080");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isConverting, setIsConverting] = useState(false);
 
   const formatOptions = [
     { value: "mp4-1080", label: "Video - MP4 (1080p)" },
@@ -46,6 +48,17 @@ export const VideoForm: React.FC<VideoFormProps> = ({ onAddToQueue }) => {
     }
   };
 
+  const handleConvertOne = async () => {
+    setIsConverting(true);
+    try {
+      await convertAndDownload(url, format);
+      setIsConverting(false);
+    } catch (error) {
+      console.error(error);
+      setIsConverting(false);
+    }
+  };
+
   return (
     <form className="video-form" onSubmit={handleSubmit}>
       <div className="video-form__grid">
@@ -64,8 +77,22 @@ export const VideoForm: React.FC<VideoFormProps> = ({ onAddToQueue }) => {
         />
       </div>
       <div className="video-form__actions">
-        <Button type="submit" variant="primary" isLoading={isSubmitting}>
-          Add to Workspace Queue
+        <Button
+          type="button"
+          variant="primary"
+          isLoading={isConverting}
+          onClick={handleConvertOne}
+          disabled={isSubmitting}
+        >
+          Convert & Download
+        </Button>
+        <Button
+          type="submit"
+          variant="secondary"
+          isLoading={isSubmitting}
+          disabled={isConverting}
+        >
+          Add to Queue
         </Button>
       </div>
     </form>

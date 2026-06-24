@@ -1,5 +1,13 @@
 import yt_dlp
 import imageio_ffmpeg
+import re
+import os
+import asyncio
+from pathlib import Path
+
+BASE_DIR = Path(__file__).parent.parent
+DOWNLOAD_DIR = BASE_DIR / "downloads"
+DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class YoutubeService:
@@ -65,3 +73,26 @@ class YoutubeService:
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
+
+    @staticmethod
+    async def download_video(url: str, format_type: str) -> str:
+
+        info = YoutubeService.get_video_info(url)
+
+        safe_title = re.sub(r'[\\/*?:"<>|]', "_", info["title"])
+
+        output_template = str(DOWNLOAD_DIR / f"{safe_title}.%(ext)s")
+
+        if format_type.startswith("mp3"):
+
+            await asyncio.to_thread(YoutubeService.download_mp3, url, output_template)
+
+            return str(DOWNLOAD_DIR / f"{safe_title}.mp3")
+
+        elif format_type.startswith("mp4"):
+
+            await asyncio.to_thread(YoutubeService.download_mp4, url, output_template)
+
+            return str(DOWNLOAD_DIR / f"{safe_title}.mp4")
+
+        raise ValueError(f"Unsupported format: {format_type}")

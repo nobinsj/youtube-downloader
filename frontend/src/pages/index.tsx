@@ -14,6 +14,7 @@ import {
   downloadAll,
   type QueueVideo,
   type AvailableFormat,
+  removeFromQueue,
 } from "../services/api";
 
 export const Home: React.FC = () => {
@@ -95,8 +96,13 @@ export const Home: React.FC = () => {
     }
   };
 
-  const handleRemoveFromQueue = (id: string) => {
-    setQueue((prev) => prev.filter((item) => item.id !== id));
+  const handleRemoveFromQueue = async (id: string) => {
+    try {
+      setQueue((prev) => prev.filter((item) => item.id !== id));
+      await removeFromQueue(id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleConvertAll = async () => {
@@ -123,15 +129,17 @@ export const Home: React.FC = () => {
 
         // Push real-time download tracking metrics onto active tables live
         if (stillProcessing) {
-          const mappedItems: QueueItem[] = updatedBackendQueue.map((item) => ({
-            id: item.id,
-            url: item.url,
-            title: item.title,
-            format: item.format as VideoFormat,
-            status: item.status,
-            progress: item.progress,
-            size: item.size || "Calculating...",
-          }));
+          const mappedItems: QueueItem[] = updatedBackendQueue
+            .filter((item) => item.status !== "completed")
+            .map((item) => ({
+              id: item.id,
+              url: item.url,
+              title: item.title,
+              format: item.format as VideoFormat,
+              status: item.status,
+              progress: item.progress,
+              size: item.size || "Calculating...",
+            }));
           setQueue(mappedItems);
         }
         // Batch run complete! Safely disconnect the SSE stream
@@ -194,10 +202,11 @@ export const Home: React.FC = () => {
             <span>↓</span>
           </div>
           <div>
-            <h1 className="home-header__title">FetchFlow</h1>
+            <h1 className="home-header__title">Youtube Downloader</h1>
             <p className="home-header__subtitle">
-              High-fidelity automation engine for external pipeline video
-              conversions.
+              Convert and download YouTube videos in multiple formats, including
+              MP4 and MP3. Queue multiple videos, track conversion progress, and
+              download them when ready.
             </p>
           </div>
         </div>
@@ -211,11 +220,9 @@ export const Home: React.FC = () => {
         {queue.length > 0 && (
           <section className="home-main__queue-section">
             <div className="queue-section-header">
-              <h3 className="queue-section-header__title">
-                Conversion Pipeline Queue
-              </h3>
+              <h3 className="queue-section-header__title">Conversion Queue</h3>
               <p className="queue-section-header__count">
-                {queue.length} items staged
+                {queue.length} files queued
               </p>
             </div>
 
@@ -230,12 +237,12 @@ export const Home: React.FC = () => {
                 disabled={queue.length === 0}
                 className="convert-trigger-button"
               >
-                Execute Pipeline & Convert All
+                Start Conversion
               </Button>
             </div>
           </section>
         )}
-
+        {queue.length > 0 && <hr />}
         <CompletedList
           items={completed}
           isLoading={downloadAllLoading}

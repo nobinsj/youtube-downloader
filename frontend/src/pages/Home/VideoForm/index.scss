@@ -1,5 +1,5 @@
-@import "../../../styles/variables";
-@import "../../../styles/mixins";
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 .video-form {
   background-color: $color-surface;
@@ -23,7 +23,8 @@
   &__actions {
     display: flex;
     justify-content: flex-end;
-    
+    gap: 16px;
+
     @include mobile {
       .btn {
         width: 100%;

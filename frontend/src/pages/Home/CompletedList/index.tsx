@@ -34,19 +34,19 @@ export const CompletedList: React.FC<CompletedListProps> = ({
     <div className="completed-container">
       <div className="completed-container__header">
         <div>
-          <h3 className="completed-container__title">Generated Outputs</h3>
+          <h3 className="completed-container__title">Completed Conversions</h3>
           <p className="completed-container__subtitle">
-            Your requested multimedia production files are prepared below.
+            Download your converted files below.
           </p>
         </div>
         {items.length > 1 && (
           <Button
-            variant="primary"
+            variant="accent"
             onClick={onDownloadAll}
             isLoading={isLoading}
             className="completed-container__download-all"
           >
-            Download All Packages (.zip)
+            Download All Files (.zip)
           </Button>
         )}
       </div>
@@ -65,15 +65,16 @@ export const CompletedList: React.FC<CompletedListProps> = ({
                 <span className="completed-card__size">{item.size}</span>
                 <span className="completed-card__divider">•</span>
                 <span className="completed-card__status-text">
-                  Ready for Transfer
+                  Ready to Download
                 </span>
               </div>
             </div>
             <div className="completed-card__action">
-              <button
+              <Button
                 onClick={() => handleDownload(item.filename)}
                 disabled={downloadingFile !== null}
-                className="completed-card__link-btn"
+                // className="completed-card__link-btn"
+                variant="success"
                 style={{
                   border: "none",
                   cursor: downloadingFile ? "not-allowed" : "pointer",
@@ -84,7 +85,7 @@ export const CompletedList: React.FC<CompletedListProps> = ({
                 {downloadingFile === item.filename
                   ? "Downloading..."
                   : "Download File"}
-              </button>
+              </Button>
             </div>
           </div>
         ))}

@@ -1,6 +1,5 @@
-@import "../../styles/variables";
-@import "../../styles/mixins";
-
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 .btn {
   display: inline-flex;
   align-items: center;
@@ -30,16 +29,16 @@
     }
   }
 
-  &--secondary {
-    background-color: $color-surface;
-    color: $color-text-secondary;
-    border-color: $color-border;
+  // &--secondary {
+  //   background-color: $color-surface;
+  //   color: $color-text-secondary;
+  //   border-color: $color-border;
 
-    &:hover:not(:disabled) {
-      background-color: $color-bg;
-      color: $color-text-primary;
-    }
-  }
+  //   &:hover:not(:disabled) {
+  //     background-color: $color-bg;
+  //     color: $color-text-primary;
+  //   }
+  // }
 
   &--danger {
     background-color: $color-danger;
@@ -47,6 +46,51 @@
 
     &:hover:not(:disabled) {
       background-color: $color-danger-hover;
+    }
+  }
+
+  &--success {
+    background-color: $color-success;
+    color: $color-surface;
+
+    &:hover:not(:disabled) {
+      background-color: $color-success-hover;
+    }
+  }
+
+  &--secondary {
+    background-color: $color-secondary;
+    color: $color-surface;
+
+    &:hover:not(:disabled) {
+      background-color: $color-secondary-hover;
+    }
+  }
+
+  &--accent {
+    background-color: $color-accent;
+    color: $color-surface;
+
+    &:hover:not(:disabled) {
+      background-color: $color-accent-hover;
+    }
+  }
+
+  &--warning {
+    background-color: $color-warning;
+    color: $color-surface;
+
+    &:hover:not(:disabled) {
+      background-color: darken($color-warning, 8%);
+    }
+  }
+
+  &--info {
+    background-color: $color-info;
+    color: $color-surface;
+
+    &:hover:not(:disabled) {
+      background-color: $color-info-hover;
     }
   }
 

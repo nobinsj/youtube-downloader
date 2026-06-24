@@ -189,3 +189,11 @@ class QueueService:
             size_bytes /= 1024
 
         return f"{size_bytes:.2f} TB"
+
+    @classmethod
+    def remove_from_queue(cls, item_id: str) -> bool:
+        initial_length = len(cls._queue)
+
+        cls._queue = [item for item in cls._queue if item.id != item_id]
+
+        return len(cls._queue) < initial_length

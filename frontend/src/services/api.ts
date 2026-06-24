@@ -8,7 +8,8 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 /**
  * Universal indexing mapping for your video application formats.
@@ -145,10 +146,13 @@ const triggerBlobDownload = (blob: Blob, filename: string) => {
 
 const fetchVideoInfo = async (url: string): Promise<VideoInfo> => {
   const response = await api.post<VideoInfo>("/video-info", { url });
-  return response.data; 
+  return response.data;
 };
 
-const addToQueue = async (data: { url: string; format: AvailableFormat }): Promise<QueueVideo> => {
+const addToQueue = async (data: {
+  url: string;
+  format: AvailableFormat;
+}): Promise<QueueVideo> => {
   const response = await api.post<QueueVideo>("/queue", data);
   return response.data;
 };
@@ -193,6 +197,24 @@ const createProgressEventSource = (): EventSource => {
   return new EventSource(`${API_BASE_URL}/progress`);
 };
 
+const convertAndDownload = async (
+  url: string,
+  format: AvailableFormat,
+): Promise<void> => {
+  const response = await api.post("/convert-download", {
+    url,
+    format,
+  });
+
+  const filename = response.data.filename;
+
+  await downloadFile(filename);
+};
+
+const removeFromQueue = async (itemId: string): Promise<void> => {
+  await api.delete(`/queue/${itemId}`);
+};
+
 export {
   fetchVideoInfo,
   addToQueue,
@@ -201,4 +223,6 @@ export {
   downloadFile,
   downloadAll,
   createProgressEventSource,
+  convertAndDownload,
+  removeFromQueue,
 };
